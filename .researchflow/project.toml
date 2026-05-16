@@ -1,0 +1,43 @@
+[project]
+name = "jadt2026-typical-source-estimation"
+schema_version = 1
+template = "data-science"
+
+[git]
+platform = "github"
+remote = ""
+visibility = "private"
+
+[layout]
+packages = "src"
+package_names = ["typical_source_estimation"]
+tests = "tests"
+specs = "docs"
+writeups = ""
+output = ""
+data = "data"
+scripts = "scripts"
+ai = "ai"
+references = ""
+
+[overleaf]
+enabled = false
+writeups = []
+
+[zotero]
+enabled = false
+library_id = ""
+bib_export = "references/library.bib"
+
+[ai]
+default_provider = "anthropic-sonnet"
+context_file = "ai/context/active-context.md"
+session_capture = "extension"
+token_budget_display = "always"
+default_model = "claude-sonnet-4-20250514"
+
+[editor]
+default = ""
+code = ""
+latex = ""
+git_client = "github"

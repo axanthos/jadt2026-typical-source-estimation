@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this reproduction package, please cite the associated JADT 2026 paper."
+title: "JADT 2026 typical-source estimation reproduction package"
+version: "0.1.0"
+date-released: "2026-05-16"
+type: software
+authors:
+  - family-names: "Xanthos"
+    given-names: "Aris"
+repository-code: "https://github.com/axanthos/jadt2026-typical-source-estimation"
+license: "MIT"
+abstract: >-
+  Paper-specific reproduction package for the JADT 2026 paper
+  "Estimating the typical-source distribution in imbalanced corpora".
+  The package contains estimator implementations, simulation scripts, table-generation
+  scripts, and conversion scripts for authorized users of the controlled-access
+  What's New, Switzerland? corpus.
+preferred-citation:
+  type: conference-paper
+  title: "Estimating the typical-source distribution in imbalanced corpora"
+  authors:
+    - family-names: "Xanthos"
+      given-names: "Aris"
+  conference:
+    name: "JADT 2026"
+  year: 2026
