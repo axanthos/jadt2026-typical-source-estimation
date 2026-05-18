@@ -1,0 +1,14 @@
+# Keep text-file normalization explicit across platforms.
+* text=auto
+
+# Source and documentation files are stored with LF endings in the repository.
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.tsv text eol=lf
+*.txt text eol=lf
+*.cff text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf

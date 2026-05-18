@@ -2,9 +2,9 @@
 
 The estimators in this module are intentionally limited to the paper's core
 comparison: pooled token weighting (``POOL``), uniform source weighting
-(``UNIF``), and capped source-mass weighting (``CAP``).  Heavier experimental
-estimators from the broader MDLSW project are deliberately excluded from this
-paper-specific reproduction package.
+(``UNIF``), and capped source-mass weighting (``CAP``).  Additional
+experimental estimators from earlier exploratory work are deliberately excluded
+from this paper-specific reproduction package.
 """
 
 from __future__ import annotations

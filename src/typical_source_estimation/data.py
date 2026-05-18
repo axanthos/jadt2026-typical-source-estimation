@@ -3,8 +3,8 @@
 The JADT reproduction package represents all estimator inputs as a source-by-
 token count matrix.  Rows are population units such as users, authors, or
 speakers; columns are token types such as emoji or word tokens.  This module is
-intentionally small so that the estimator definitions remain inspectable outside
-of the larger MDLSW research codebase from which the paper originated.
+intentionally small so that the estimator definitions remain inspectable as
+standalone reproduction code.
 """
 
 from __future__ import annotations
@@ -157,7 +157,7 @@ def split_sequence(value: object, *, delimiter: str = "-") -> list[str]:
     if pd.isna(value):
         return []
 
-    # The final emoji TSV uses hyphen-delimited sequences, matching MDLSW.
+    # The paper-specific emoji TSVs use hyphen-delimited token sequences.
     text = str(value)
     return [part for part in text.split(delimiter) if part]
 

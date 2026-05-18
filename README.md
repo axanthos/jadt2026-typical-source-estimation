@@ -59,18 +59,24 @@ preparation scripts provided in this repository.
 
 ## Installation
 
-During development, use a standard editable install:
+The package declares its runtime dependencies in `pyproject.toml`, including
+`numpy`, `pandas`, and `matplotlib`.  The `dev` extra adds `pytest` for the test
+suite.
+
+With `uv`, set up the development environment and run the tests with:
+
+```bash
+uv sync --extra dev
+uv run python -m pytest -q
+```
+
+With standard `pip`, use an editable install with the development extra:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e .[dev]
-```
-
-Then run the tests:
-
-```bash
-pytest
+python -m pip install -e ".[dev]"
+python -m pytest -q
 ```
 
 ## Minimal example

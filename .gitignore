@@ -29,7 +29,7 @@ machine.toml
 outputs/
 out/
 
-# ResearchFlow local project metadata/state
+# Local project metadata/state
 .researchflow/
 
 # OS/editor files
@@ -39,5 +39,3 @@ Thumbs.db
 .idea/
 # ResearchFlow patch register (developer-local)
 .researchflow/applied_patches.toml
-# ResearchFlow Changes-panel state (developer-local)
-.researchflow/changes_panel_state.toml
