@@ -1,19 +1,9 @@
 # Data directory
 
-This directory is reserved for public toy data and local private inputs.
+This directory is reserved for synthetic toy inputs that can be redistributed
+with the reproduction package.
 
-## Public toy data
-
-The `toy/` subdirectory contains small synthetic examples for smoke tests and documentation. These files are not derived from the WNS corpus.
-
-## Private controlled-access data
-
-Do not commit WNS-derived token-level inputs to this repository.
-
-Authorized WNS users should generate local private TSV files using the preparation scripts and place them under an ignored directory such as:
-
-```text
-data/private/
-```
-
-The `.gitignore` file excludes `data/private/` and `_data_private/` by default.
+It does **not** contain token-level data derived from the *What's New,
+Switzerland?* corpus. Authorized WNS users should generate paper-specific TSV
+inputs locally from their controlled-access copy of the corpus, following the
+instructions in `docs/data_access.md` and `docs/reproduction_plan.md`.

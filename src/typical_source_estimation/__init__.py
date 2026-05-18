@@ -1,3 +1,32 @@
-"""Typical-source estimation utilities for the JADT 2026 reproduction package."""
+"""Typical-source estimation tools for the JADT 2026 reproduction package."""
 
-__version__ = "0.1.0"
+from typical_source_estimation.data import CountsDataset, build_counts_dataset, load_sequence_tsv, split_sequence
+from typical_source_estimation.estimators import (
+    EstimatorResult,
+    aggregate_source_profiles,
+    capped_mass,
+    capped_mass_alpha,
+    pooled_mle,
+    source_profiles,
+    uniform_sources,
+)
+from typical_source_estimation.metrics import normalize_nonnegative, total_variation
+from typical_source_estimation.source_summary import SourceSizeSummary, summarize_source_sizes
+
+__all__ = [
+    "CountsDataset",
+    "EstimatorResult",
+    "SourceSizeSummary",
+    "aggregate_source_profiles",
+    "build_counts_dataset",
+    "capped_mass",
+    "capped_mass_alpha",
+    "load_sequence_tsv",
+    "normalize_nonnegative",
+    "pooled_mle",
+    "source_profiles",
+    "split_sequence",
+    "summarize_source_sizes",
+    "total_variation",
+    "uniform_sources",
+]
