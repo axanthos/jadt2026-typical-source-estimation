@@ -43,19 +43,20 @@ WNS corpus. The final preparation/table scripts should:
 
 ## 4. Expected command pattern
 
-The final package should support commands following this pattern:
+The package is being built around commands following this pattern:
 
 ```bash
 # Simulations
 python scripts/reproduce_simulation.py --outdir outputs/simulation
 
 # WNS conversion, for authorized users only
-python scripts/prepare_wns_emoji_tsv.py --wns-root _data_private/wns --out _data_private/derived/wns_emoji.tsv
-python scripts/prepare_wns_lexical_tsv.py --wns-root _data_private/wns --out _data_private/derived/wns_lexical.tsv
+python scripts/prepare_wns_posts_tsv.py --xml-dir _data_private/wns/data/XML-TEI --output _data_private/derived/wns_posts.tsv
+python scripts/prepare_wns_emoji_tsv.py --posts _data_private/derived/wns_posts.tsv --output _data_private/derived/wns_emoji.tsv
+python scripts/prepare_wns_lexical_tsv.py --posts _data_private/derived/wns_posts.tsv --output _data_private/derived/wns_lexical.tsv
 
 # Real-data tables
 python scripts/reproduce_emoji_table.py --dataset _data_private/derived/wns_emoji.tsv --outdir outputs/emoji
 python scripts/reproduce_lexical_tables.py --dataset _data_private/derived/wns_lexical.tsv --outdir outputs/lexical
 ```
 
-The exact command names may change as the reproduction package is finalized.
+The WNS preparation commands are now implemented.  The real-data table and simulation reproduction commands will be filled in during the next extraction steps.

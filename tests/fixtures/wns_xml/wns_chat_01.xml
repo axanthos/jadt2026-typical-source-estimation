@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <text>
+    <body>
+      <post modality="written" generatedBy="human" who="#wns.user.001" xml:id="wns.chat.01.1">
+        <time>2021-09-14 15:39</time>Salut 😂😂 ok 🤷🏻‍♀️!
+      </post>
+      <post modality="media" generatedBy="human" who="#wns.user.002" xml:id="wns.chat.01.2">
+        <time>2021-09-14 15:40</time>_MEDIA_OMITTED_
+      </post>
+      <post modality="written" generatedBy="system" who="#wns.system" xml:id="wns.chat.01.3">
+        <time>2021-09-14 15:41</time>__ENCRYPTION_MESSAGE__
+      </post>
+      <post modality="written" generatedBy="human" who="#wns.user.001" xml:id="wns.chat.01.4">
+        <time>2021-09-14 15:42</time>Texte sans emoji.
+      </post>
+    </body>
+  </text>
+</TEI>

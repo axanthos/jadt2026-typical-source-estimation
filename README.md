@@ -11,8 +11,9 @@ paper.
 ## Status
 
 Development scaffold with the core source-count data model, the three paper
-estimators, total-variation distance, source-size summaries, and unit tests.
-Simulation and WNS preparation scripts will be added in subsequent steps.
+estimators, total-variation distance, source-size summaries, unit tests, and
+initial WNS preparation scripts for authorized local reproduction. Simulation
+and final table-generation scripts will be added in subsequent steps.
 
 ## What this repository contains
 
@@ -23,6 +24,7 @@ Simulation and WNS preparation scripts will be added in subsequent steps.
 - Core utilities for source-by-token count datasets.
 - Total-variation distance and source-size imbalance summaries.
 - Small synthetic toy inputs for examples and smoke tests.
+- WNS preparation scripts that regenerate paper-specific TSV inputs locally for authorized users.
 - Documentation for the planned reproduction workflow.
 
 ## What this repository will not contain
@@ -50,8 +52,13 @@ preparation scripts provided in this repository.
 ├── docs/
 │   ├── data_access.md
 │   └── reproduction_plan.md
+├── configs/
+│   └── wns_jadt_preprocessing.ini
 ├── scripts/
-│   └── README.md
+│   ├── README.md
+│   ├── prepare_wns_posts_tsv.py
+│   ├── prepare_wns_emoji_tsv.py
+│   └── prepare_wns_lexical_tsv.py
 ├── src/
 │   └── typical_source_estimation/
 └── tests/
