@@ -134,12 +134,15 @@ def test_write_lexical_tsv_excludes_system_and_writes_text_runs(tmp_path: Path) 
     write_lexical_tsv(posts_path, lexical_path)
     rows = _read_tsv(lexical_path)
 
-    # Emoji-only pieces are omitted; human media placeholders remain for later filtering.
+    # Emoji tokens are removed, but each non-emoji run is retained exactly.
     assert list(rows[0]) == ["source_id", "text"]
-    assert [row["source_id"] for row in rows] == ["#wns.user.001", "#wns.user.001", "#wns.user.002", "#wns.user.001"]
-    assert rows[0]["text"] == "Salut "
-    assert rows[1]["text"] == " ok "
-    assert rows[2]["text"] == "_MEDIA_OMITTED_"
+    assert rows == [
+        {"source_id": "#wns.user.001", "text": "Salut "},
+        {"source_id": "#wns.user.001", "text": " ok "},
+        {"source_id": "#wns.user.001", "text": "!"},
+        {"source_id": "#wns.user.002", "text": "_MEDIA_OMITTED_"},
+        {"source_id": "#wns.user.001", "text": "Texte sans emoji."},
+    ]
 
 
 def test_invalid_extraction_mode_is_rejected() -> None:
