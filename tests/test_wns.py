@@ -55,6 +55,28 @@ def test_iter_wns_posts_accepts_xml_tei_and_tei_xml_aliases(tmp_path: Path) -> N
     assert posts[0].source_id == "#wns.user.001"
 
 
+
+
+def test_iter_wns_posts_recovers_from_invalid_xml_characters(tmp_path: Path) -> None:
+    """WNS XML parsing matches the original recover=True exporter behavior."""
+    xml_dir = tmp_path / "TEI-XML"
+    xml_dir.mkdir()
+    xml_path = xml_dir / "wns_chat_99.xml"
+    xml_path.write_bytes(
+        b'<TEI><text><body>'
+        b'<post who="#wns.user.001" generatedBy="human" modality="written" xml:id="wns.chat.99.1">'
+        b'<time>2020-01-01 10:00:00</time>Hello \x08 there'
+        b'</post></body></text></TEI>'
+    )
+
+    # Python ElementTree would fail here; the WNS pipeline recovers and keeps
+    # the surrounding post content while dropping the invalid control byte.
+    posts = list(iter_wns_posts(xml_dir))
+    assert len(posts) == 1
+    assert posts[0].post_id == "wns.chat.99.1"
+    assert posts[0].text == "Hello  there"
+
+
 def test_normalize_emoji_token_matches_jadt_defaults() -> None:
     """The default paper contract removes skin tone/VS and retains gender."""
     normalized = normalize_emoji_token("🤷🏻\u200d♀️")

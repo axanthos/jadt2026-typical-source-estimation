@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import csv
 import re
-import xml.etree.ElementTree as ET
+from lxml import etree
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Iterator, List
@@ -53,37 +53,37 @@ class WnsPost:
     text: str
 
 
-def _local_name(tag: str) -> str:
+def _local_name(tag: object) -> str:
     """Return the local XML name independently of namespace decoration."""
-    if "}" in tag:
-        return tag.rsplit("}", 1)[1]
-    return tag
+    text = str(tag)
+    if "}" in text:
+        return text.rsplit("}", 1)[1]
+    return text
 
 
-def _xml_id(element: ET.Element) -> str:
+def _xml_id(element: etree._Element) -> str:
     """Return an element's ``xml:id`` value when present."""
     return str(element.attrib.get(XML_ID) or element.attrib.get("xml:id") or "")
 
 
-def _post_text_without_time(post: ET.Element) -> str:
+def _post_text_without_time(post: etree._Element) -> str:
     """Return post text while excluding the timestamp element's own text."""
-    pieces: list[str] = []
+    # Match the original WNS exporter contract exactly: collect every text node
+    # that is not inside a ``time`` element, then strip the joined message.
+    text_nodes = post.xpath('.//text()[not(ancestor::*[local-name()="time"])]')
+    return "".join(str(node) for node in text_nodes).strip()
 
-    def collect(element: ET.Element) -> None:
-        """Append text recursively, skipping content inside ``<time>`` nodes."""
-        if _local_name(element.tag) != "time" and element.text:
-            pieces.append(element.text)
 
-        # Child tails belong to the surrounding post text even for ``<time>``.
-        for child in list(element):
-            if _local_name(child.tag) != "time":
-                collect(child)
-            if child.tail:
-                pieces.append(child.tail)
+def _clear_element(element: etree._Element) -> None:
+    """Free parsed XML nodes during streaming iteration."""
+    parent = element.getparent()
+    element.clear()
 
-    # Match the WNS exporter contract: concatenate non-time text and strip it.
-    collect(post)
-    return "".join(pieces).strip()
+    # Keep memory bounded by deleting already-processed siblings, matching the
+    # standard lxml iterparse pattern used by the original WNS exporter.
+    if parent is not None:
+        while element.getprevious() is not None:
+            del parent[0]
 
 
 def _resolve_xml_directory(xml_dir: str | Path) -> Path:
@@ -128,22 +128,37 @@ def _iter_xml_files(xml_dir: str | Path, pattern: str) -> list[Path]:
 
 
 def iter_wns_posts(xml_dir: str | Path, *, pattern: str = "wns_chat_*.xml") -> Iterator[WnsPost]:
-    """Yield minimal WNS post records from XML-TEI files."""
-    for path in _iter_xml_files(xml_dir, pattern):
-        root = ET.parse(path).getroot()
+    """Yield minimal WNS post records from XML-TEI files.
 
-        # Search by local name so the function works with namespaced TEI files.
-        for post in root.iter():
-            if _local_name(post.tag) != "post":
+    The controlled-access WNS XML files may contain isolated invalid XML
+    characters inherited from exported chat data.  The original WNS exporter
+    used ``lxml.etree.iterparse(..., recover=True, huge_tree=True)`` for this
+    reason; the reproduction package keeps that behavior so the preparation
+    step is faithful to the deterministic pipeline used for the paper.
+    """
+    for path in _iter_xml_files(xml_dir, pattern):
+        # Stream with lxml recovery, matching the original utility rather than
+        # Python's stricter ElementTree parser, which aborts on invalid tokens.
+        context = etree.iterparse(str(path), events=("end",), recover=True, huge_tree=True)
+
+        for _event, element in context:
+            if _local_name(element.tag) != "post":
                 continue
+
+            # Convert the XML element into an immutable record before clearing
+            # the element from the streaming parser's tree.
             yield WnsPost(
                 source_file=path.name,
-                post_id=_xml_id(post),
-                source_id=str(post.attrib.get("who", "")),
-                generated_by=str(post.attrib.get("generatedBy", "")),
-                modality=str(post.attrib.get("modality", "")),
-                text=_post_text_without_time(post),
+                post_id=_xml_id(element),
+                source_id=str(element.attrib.get("who", "")),
+                generated_by=str(element.attrib.get("generatedBy", "")),
+                modality=str(element.attrib.get("modality", "")),
+                text=_post_text_without_time(element),
             )
+            _clear_element(element)
+
+        # Release parser resources explicitly once each file has been consumed.
+        del context
 
 
 def write_posts_tsv(
