@@ -26,13 +26,12 @@ authorized local copy of the corpus. The final preparation script should:
 3. retain gendered emoji sequences;
 4. write a local TSV suitable for the estimator scripts.
 
-The table-generation script should reproduce the paper's top-k emoji estimator
-table and associated total-variation summaries.
+The implemented table-generation script reproduces the paper's top-k emoji estimator table and associated total-variation summaries from the prepared TSV input.
 
 ## 3. Lexical sensitivity check
 
 The lexical check is based on message text from an authorized local copy of the
-WNS corpus. The final preparation/table scripts should:
+WNS corpus. The implemented preparation/table scripts:
 
 1. exclude non-human/system pseudo-sources;
 2. lowercase text and tokenize with the documented word-token rule;
@@ -55,8 +54,8 @@ python scripts/prepare_wns_emoji_tsv.py --posts _data_private/derived/wns_posts.
 python scripts/prepare_wns_lexical_tsv.py --posts _data_private/derived/wns_posts.tsv --output _data_private/derived/wns_lexical.tsv
 
 # Real-data tables
-python scripts/reproduce_emoji_table.py --dataset _data_private/derived/wns_emoji.tsv --outdir outputs/emoji
-python scripts/reproduce_lexical_tables.py --dataset _data_private/derived/wns_lexical.tsv --outdir outputs/lexical
+python scripts/reproduce_emoji_table.py --input _data_private/derived/wns_emoji.tsv --outdir outputs/emoji
+python scripts/reproduce_lexical_tables.py --input _data_private/derived/wns_lexical.tsv --outdir outputs/lexical
 ```
 
-The WNS preparation commands are now implemented.  The real-data table and simulation reproduction commands will be filled in during the next extraction steps.
+The WNS preparation and real-data table commands are now implemented. Simulation reproduction commands will be filled in during the next extraction step.
