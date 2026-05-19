@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import shutil
 from pathlib import Path
 
 import pytest
@@ -39,6 +40,19 @@ def test_iter_wns_posts_extracts_minimal_post_records() -> None:
     assert posts[0].source_id == "#wns.user.001"
     assert posts[0].generated_by == "human"
     assert posts[0].text == "Salut 😂😂 ok 🤷🏻\u200d♀️!"
+
+
+def test_iter_wns_posts_accepts_xml_tei_and_tei_xml_aliases(tmp_path: Path) -> None:
+    """WNS XML parsing accepts the two observed TEI folder spellings."""
+    corpus_root = tmp_path / "wns" / "data"
+    actual_xml_dir = corpus_root / "TEI-XML"
+    requested_alias_dir = corpus_root / "XML-TEI"
+    shutil.copytree(FIXTURE_XML_DIR, actual_xml_dir)
+
+    # Requesting the documented alias still resolves to the local export folder.
+    posts = list(iter_wns_posts(requested_alias_dir))
+    assert len(posts) == 4
+    assert posts[0].source_id == "#wns.user.001"
 
 
 def test_normalize_emoji_token_matches_jadt_defaults() -> None:

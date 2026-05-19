@@ -86,14 +86,42 @@ def _post_text_without_time(post: ET.Element) -> str:
     return "".join(pieces).strip()
 
 
+def _resolve_xml_directory(xml_dir: str | Path) -> Path:
+    """Resolve the local WNS XML directory, accepting documented name variants.
+
+    The WNS corpus documentation has used ``XML-TEI`` in some places, while
+    local exports and utility scripts may use ``TEI-XML``.  The reproduction
+    scripts accept either spelling so authorized users do not need to rename
+    their private corpus folder.
+    """
+    folder = Path(xml_dir)
+    if folder.exists():
+        return folder
+
+    # Try the known WNS directory-name alias beside the requested folder.
+    aliases = {"XML-TEI": "TEI-XML", "TEI-XML": "XML-TEI"}
+    alias_name = aliases.get(folder.name)
+    if alias_name is None:
+        return folder
+
+    # Only silently redirect when the sibling alias really exists.
+    alias_folder = folder.with_name(alias_name)
+    if alias_folder.exists():
+        return alias_folder
+    return folder
+
+
 def _iter_xml_files(xml_dir: str | Path, pattern: str) -> list[Path]:
     """Return sorted WNS XML files, failing early when none are found."""
-    folder = Path(xml_dir)
-    files = sorted(folder.glob(pattern))
+    requested_folder = Path(xml_dir)
+    folder = _resolve_xml_directory(requested_folder)
 
     # A missing input directory is usually a path/configuration error.
     if not folder.exists():
-        raise FileNotFoundError(f"WNS XML directory does not exist: {folder}")
+        raise FileNotFoundError(f"WNS XML directory does not exist: {requested_folder}")
+
+    # Glob only after resolving aliases so diagnostics reflect the actual input.
+    files = sorted(folder.glob(pattern))
     if not files:
         raise FileNotFoundError(f"No WNS XML files found in {folder} matching {pattern!r}.")
     return files
