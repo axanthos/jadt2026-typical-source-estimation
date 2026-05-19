@@ -28,7 +28,7 @@ DEFAULT_LEXICAL_EXCLUDE_SOURCE_REGEX = r"(?i)^(#?wns\.system|#?system|system)$"
 
 
 DEIDENTIFICATION_PLACEHOLDER_RE = re.compile(
-    r"^_(last_name|url|email|number|town_name|street_address|masked_text)_.*_$",
+    r"^_(last_name|url|email|number|town_name|street_address|masked_text)(?:_.*)?_$",
     re.IGNORECASE,
 )
 MEDIA_PLACEHOLDER_RE = re.compile(
@@ -40,7 +40,7 @@ INTERACTION_PLACEHOLDER_RE = re.compile(
     re.IGNORECASE,
 )
 SYSTEM_PLACEHOLDER_RE = re.compile(r"^__.+_message__$", re.IGNORECASE)
-WNS_USER_PLACEHOLDER_RE = re.compile(r"^_wns_user_[0-9]{3}_.*_$", re.IGNORECASE)
+WNS_USER_PLACEHOLDER_RE = re.compile(r"^_wns_user_[0-9]{3}(?:_.*)?_$", re.IGNORECASE)
 URL_LIKE_RE = re.compile(r"^(https?://|www\.)", re.IGNORECASE)
 EMAIL_LIKE_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", re.IGNORECASE)
 DATE_LIKE_RE = re.compile(r"^\d{1,4}([./:-]\d{1,4})+$")

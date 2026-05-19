@@ -49,13 +49,15 @@ The package is being built around commands following this pattern:
 python scripts/reproduce_simulation.py --outdir outputs/simulation
 
 # WNS conversion, for authorized users only
-python scripts/prepare_wns_posts_tsv.py --xml-dir _data_private/wns/data/XML-TEI --output _data_private/derived/wns_posts.tsv
-python scripts/prepare_wns_emoji_tsv.py --posts _data_private/derived/wns_posts.tsv --output _data_private/derived/wns_emoji.tsv
-python scripts/prepare_wns_lexical_tsv.py --posts _data_private/derived/wns_posts.tsv --output _data_private/derived/wns_lexical.tsv
+python scripts/prepare_wns_posts_tsv.py --xml-dir data/private/wns/data/XML-TEI --output data/private/derived/wns_posts.tsv
+python scripts/prepare_wns_emoji_tsv.py --posts data/private/derived/wns_posts.tsv --output data/private/derived/wns_emoji.tsv
+python scripts/prepare_wns_lexical_tsv.py --posts data/private/derived/wns_posts.tsv --output data/private/derived/wns_lexical.tsv
 
 # Real-data tables
-python scripts/reproduce_emoji_table.py --input _data_private/derived/wns_emoji.tsv --outdir outputs/emoji
-python scripts/reproduce_lexical_tables.py --input _data_private/derived/wns_lexical.tsv --outdir outputs/lexical
+python scripts/reproduce_emoji_table.py --input data/private/derived/wns_emoji.tsv --outdir outputs/emoji
+python scripts/reproduce_lexical_tables.py --input data/private/derived/wns_lexical.tsv --outdir outputs/lexical
+# Lexical input comparison diagnostic
+python scripts/compare_lexical_inputs.py --old data/private/wns_corpus_v1.0.0_no_EMJ.tsv --new data/private/derived/wns_lexical.tsv --outdir outputs/lexical_compare
 ```
 
 The WNS preparation and real-data table commands are now implemented. Simulation reproduction commands will be filled in during the next extraction step.
