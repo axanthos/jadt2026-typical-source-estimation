@@ -106,8 +106,30 @@ def source_size_summary_frame(summary: SourceSizeSummary) -> pd.DataFrame:
 
 
 def markdown_table(frame: pd.DataFrame) -> str:
-    """Return a GitHub-flavored Markdown table string."""
-    return frame.to_markdown(index=False)
+    """Return a small GitHub-flavored Markdown table without optional deps.
+
+    Pandas delegates ``DataFrame.to_markdown`` to the optional ``tabulate``
+    package.  The reproduction package should not require an undeclared
+    display-only dependency for script outputs, so this helper implements the
+    compact pipe-table subset needed by our generated reports.
+    """
+    headers = [str(column) for column in frame.columns]
+    body_rows = [[str(value) for value in row] for row in frame.itertuples(index=False, name=None)]
+
+    # Compute a deterministic width per column from headers and body cells.
+    widths: list[int] = []
+    for index, header in enumerate(headers):
+        cell_lengths = [len(row[index]) for row in body_rows]
+        widths.append(max([len(header), *cell_lengths]))
+
+    # Keep alignment simple and stable for all generated documentation tables.
+    def _format_row(cells: list[str]) -> str:
+        padded = [cell.ljust(widths[index]) for index, cell in enumerate(cells)]
+        return "| " + " | ".join(padded) + " |"
+
+    lines = [_format_row(headers), "| " + " | ".join("-" * width for width in widths) + " |"]
+    lines.extend(_format_row(row) for row in body_rows)
+    return "\n".join(lines)
 
 
 def latex_escape(value: object) -> str:
