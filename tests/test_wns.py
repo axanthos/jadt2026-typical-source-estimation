@@ -5,8 +5,13 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+import pytest
+
 from typical_source_estimation.wns import (
+    _merge_zwj_sequences,
     extract_emoji_runs,
+    extract_runs,
+    extract_text_runs,
     iter_wns_posts,
     normalize_emoji_token,
     prepare_posts_tsv,
@@ -36,7 +41,7 @@ def test_iter_wns_posts_extracts_minimal_post_records() -> None:
     assert posts[0].text == "Salut 😂😂 ok 🤷🏻\u200d♀️!"
 
 
-def test_emoji_normalization_strips_skin_and_variation_but_keeps_gender() -> None:
+def test_normalize_emoji_token_matches_jadt_defaults() -> None:
     """The default paper contract removes skin tone/VS and retains gender."""
     normalized = normalize_emoji_token("🤷🏻\u200d♀️")
 
@@ -46,12 +51,51 @@ def test_emoji_normalization_strips_skin_and_variation_but_keeps_gender() -> Non
     assert "️" not in normalized
 
 
-def test_extract_emoji_runs_preserves_contiguous_runs() -> None:
-    """Emoji extraction emits delimiter-coded runs separated by text."""
+def test_normalize_emoji_token_can_reproduce_original_gender_stripping() -> None:
+    """The port preserves the original WNS utility's gender-stripping option."""
+    normalized = normalize_emoji_token(
+        "🙇🏻\u200d♀️",
+        strip_variation_selectors=True,
+        strip_skin_tone=False,
+        strip_gender=True,
+    )
+
+    # Gender is removed and the now-dangling ZWJ is cleaned, but skin tone stays.
+    assert normalized == "🙇🏻"
+    assert "♀" not in normalized
+    assert "\u200d" not in normalized
+
+
+def test_extract_emoji_runs_uses_emoji_package_segmentation() -> None:
+    """Emoji extraction emits delimiter-coded runs separated by non-emoji text."""
     runs = extract_emoji_runs("Hi 😱😱 ok 🤷🏻\u200d♀️😊")
 
     # Adjacent emoji stay in the same run; intervening text starts a new run.
     assert runs == ["😱-😱", "🤷\u200d♀-😊"]
+
+
+def test_variation_selectors_and_skin_tone_match_original_options() -> None:
+    """Configurable normalization reproduces the WNS utility edge cases."""
+    assert extract_emoji_runs("❤❤️", strip_variation_selectors=False, strip_skin_tone=False) == ["❤-❤️"]
+    assert extract_emoji_runs("❤❤️", strip_variation_selectors=True, strip_skin_tone=False) == ["❤-❤"]
+    assert extract_emoji_runs("👍🏾👍", strip_skin_tone=True) == ["👍-👍"]
+
+
+def test_zwj_sequence_merging_matches_original_helper() -> None:
+    """The direct ZWJ merge helper preserves the original utility contract."""
+    family = "👨\u200d👩\u200d👧"
+
+    # Explicit ZWJ connector tokens are merged, while bare joiners are dropped.
+    assert _merge_zwj_sequences(["👨", "\u200d", "👩", "\u200d", "👧"]) == [family]
+    assert _merge_zwj_sequences(["🙋", "\u200d"]) == ["🙋"]
+    assert _merge_zwj_sequences(["\u200d", "🙋"]) == ["🙋"]
+
+
+def test_text_mode_extracts_non_emoji_runs() -> None:
+    """Text extraction mirrors the WNS utility's ``mode=text`` behavior."""
+    assert extract_text_runs("Hello 😂 world 😊 bye") == ["Hello ", " world ", " bye"]
+    assert extract_text_runs("😂   😊") == []
+    assert extract_runs("😂😊👍", mode="text", join_emoji_sequences=True) == []
 
 
 def test_prepare_posts_tsv_writes_minimal_columns(tmp_path: Path) -> None:
@@ -82,15 +126,23 @@ def test_write_emoji_tsv_excludes_system_and_outputs_two_columns(tmp_path: Path)
     ]
 
 
-def test_write_lexical_tsv_excludes_system_and_preserves_text(tmp_path: Path) -> None:
-    """Lexical TSV preparation leaves tokenization to later table scripts."""
+def test_write_lexical_tsv_excludes_system_and_writes_text_runs(tmp_path: Path) -> None:
+    """Lexical TSV preparation writes WNS ``mode=text`` runs, not full posts."""
     posts_path = tmp_path / "posts.tsv"
     lexical_path = tmp_path / "lexical.tsv"
     prepare_posts_tsv(FIXTURE_XML_DIR, posts_path)
     write_lexical_tsv(posts_path, lexical_path)
     rows = _read_tsv(lexical_path)
 
-    # Human media placeholders remain available for later documented filtering.
+    # Emoji-only pieces are omitted; human media placeholders remain for later filtering.
     assert list(rows[0]) == ["source_id", "text"]
-    assert [row["source_id"] for row in rows] == ["#wns.user.001", "#wns.user.002", "#wns.user.001"]
-    assert rows[1]["text"] == "_MEDIA_OMITTED_"
+    assert [row["source_id"] for row in rows] == ["#wns.user.001", "#wns.user.001", "#wns.user.002", "#wns.user.001"]
+    assert rows[0]["text"] == "Salut "
+    assert rows[1]["text"] == " ok "
+    assert rows[2]["text"] == "_MEDIA_OMITTED_"
+
+
+def test_invalid_extraction_mode_is_rejected() -> None:
+    """WNS run extraction fails early for unsupported modes."""
+    with pytest.raises(ValueError, match="mode"):
+        extract_runs("abc", mode="invalid", join_emoji_sequences=True)
