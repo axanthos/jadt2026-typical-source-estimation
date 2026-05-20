@@ -14,6 +14,7 @@ from typical_source_estimation.simulation import (
     generate_coupling_dataset,
     run_coupling_simulation,
     summarize_simulation,
+    _allocate_top_split,
 )
 
 
@@ -33,6 +34,21 @@ def tiny_config() -> SimulationConfig:
             ImbalanceLevel(1, "80/20", "80/20", 0.25, 0.8),
         ),
     )
+
+
+def test_top_split_uses_ceiling_for_top_fraction() -> None:
+    """Fractional top-source counts should round up for imbalance regimes."""
+    totals, top_mask = _allocate_top_split(
+        n_sources=6,
+        total_tokens=60,
+        top_fraction=0.25,
+        top_mass_fraction=0.8,
+        rng=np.random.default_rng(0),
+    )
+
+    assert int(top_mask.sum()) == 2
+    assert float(totals[top_mask].sum()) == 48.0
+    assert float(totals[~top_mask].sum()) == 12.0
 
 
 def test_generate_coupling_dataset_is_seed_deterministic() -> None:

@@ -15,6 +15,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 import json
+import math
 
 import numpy as np
 import pandas as pd
@@ -121,7 +122,7 @@ def _allocate_top_split(
         raise ValueError("top_mass_fraction must be in (0, 1).")
 
     # Select top sources by permutation so size/content coupling depends on seed.
-    n_top = max(1, int(round(float(top_fraction) * int(n_sources))))
+    n_top = max(1, int(math.ceil(float(top_fraction) * int(n_sources))))
     n_top = min(n_top, int(n_sources) - 1)
     permutation = rng.permutation(int(n_sources))
     top_indices = permutation[:n_top]
@@ -181,7 +182,7 @@ def _make_cluster_centroids_with_target_tv(
     if not (0.0 < target_tv < 1.0):
         raise ValueError("target_tv must be in (0, 1).")
 
-    # Choose disjoint-ish token subsets to boost for each regime centroid.
+    # Choose regime-specific token subsets to receive extra mass.
     base = np.asarray(base, dtype=np.float64)
     vocab_size = int(base.size)
     permutation = rng.permutation(vocab_size)
