@@ -61,23 +61,24 @@ def test_reproduce_emoji_table_writes_exact_toy_outputs(tmp_path: Path) -> None:
     )
 
     # Verify the complete toy Top-K display table, not just file existence.
-    topk = pd.read_csv(outdir / "emoji_topk_table.tsv", sep="\t")
-    assert list(topk.columns) == ["rank", "pooled", "unif_src", "cap_a0.5", "cap_a1", "cap_a2"]
+    topk = pd.read_csv(outdir / "emoji_topk_table.tsv", sep="	")
+    assert list(topk.columns) == ["rank", "unif_src", "cap_a0.5", "cap_a1", "cap_a2", "pooled"]
     assert topk.to_dict("records") == [
-        {"rank": "1", "pooled": "❤ 0.333333", "unif_src": "❤ 0.388889", "cap_a0.5": "❤ 0.388889", "cap_a1": "❤ 0.375000", "cap_a2": "❤ 0.333333"},
-        {"rank": "2", "pooled": "👍 0.333333", "unif_src": "👍 0.333333", "cap_a0.5": "👍 0.333333", "cap_a1": "👍 0.312500", "cap_a2": "👍 0.333333"},
-        {"rank": "MassTopK", "pooled": "0.666667", "unif_src": "0.722222", "cap_a0.5": "0.722222", "cap_a1": "0.687500", "cap_a2": "0.666667"},
-        {"rank": "TV_to_pooled_topK", "pooled": "0.000000", "unif_src": "0.027778", "cap_a0.5": "0.027778", "cap_a1": "0.031250", "cap_a2": "0.000000"},
-        {"rank": "TV_to_pooled_all", "pooled": "0.000000", "unif_src": "0.055556", "cap_a0.5": "0.055556", "cap_a1": "0.041667", "cap_a2": "0.000000"},
-        {"rank": "TV_to_unif_src_topK", "pooled": "0.027778", "unif_src": "0.000000", "cap_a0.5": "0.000000", "cap_a1": "0.017361", "cap_a2": "0.027778"},
-        {"rank": "TV_to_unif_src_all", "pooled": "0.055556", "unif_src": "0.000000", "cap_a0.5": "0.000000", "cap_a1": "0.034722", "cap_a2": "0.055556"},
+        {"rank": "1", "unif_src": "❤ 0.389", "cap_a0.5": "❤ 0.389", "cap_a1": "❤ 0.375", "cap_a2": "❤ 0.333", "pooled": "❤ 0.333"},
+        {"rank": "2", "unif_src": "👍 0.333", "cap_a0.5": "👍 0.333", "cap_a1": "👍 0.312", "cap_a2": "👍 0.333", "pooled": "👍 0.333"},
+        {"rank": "Head mass", "unif_src": "0.722", "cap_a0.5": "0.722", "cap_a1": "0.688", "cap_a2": "0.667", "pooled": "0.667"},
+        {"rank": "TV to POOL", "unif_src": "0.056", "cap_a0.5": "0.056", "cap_a1": "0.042", "cap_a2": "0.000", "pooled": "--"},
+        {"rank": "TV to UNIF", "unif_src": "--", "cap_a0.5": "0.000", "cap_a1": "0.035", "cap_a2": "0.056", "pooled": "0.056"},
     ]
 
     # Confirm Markdown and LaTeX outputs include the generated table content.
     markdown = (outdir / "emoji_topk_table.md").read_text(encoding="utf-8")
     assert "| rank" in markdown
-    assert "❤ 0.333333" in markdown
-    assert "\\twemoji" in (outdir / "emoji_topk_table.tex").read_text(encoding="utf-8")
+    assert "❤ 0.333" in markdown
+    latex = (outdir / "emoji_topk_table.tex").read_text(encoding="utf-8")
+    assert r"\multicolumn{3}{c}{\textsc{cap}}" in latex
+    assert r"TV to \textsc{pool}" in latex
+    assert r"\twemoji" in latex
 
     # Source-size summaries should use the same toy source masses exactly.
     summary_lookup = _summary_lookup(outdir / "emoji_source_size_summary.tsv")
