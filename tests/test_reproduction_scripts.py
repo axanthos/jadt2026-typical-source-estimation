@@ -78,6 +78,7 @@ def test_reproduce_emoji_table_writes_exact_toy_outputs(tmp_path: Path) -> None:
     latex = (outdir / "emoji_topk_table.tex").read_text(encoding="utf-8")
     assert r"\multicolumn{3}{c}{\textsc{cap}}" in latex
     assert r"TV to \textsc{pool}" in latex
+    assert r"Three values of $\alpha$" in latex
     assert r"\twemoji" in latex
 
     # Source-size summaries should use the same toy source masses exactly.

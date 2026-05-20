@@ -72,11 +72,11 @@ def build_outputs(
         emoji_topk_latex(
             topk_df,
             caption=(
-                "Top-20 emoji by estimator on the WNS corpus (probabilities rounded to 3~d.p.). "
-                "Three values of $\alpha$ show the effect of relaxing the cap: smaller values give more "
-                "source-balanced weights, while larger values allow high-mass sources to retain more influence. "
-                "Head mass is the total probability assigned to the top-20 types. TV distances use the full "
-                "distribution over all emoji types."
+                r"Top-20 emoji by estimator on the WNS corpus (probabilities rounded to 3~d.p.). "
+                r"Three values of $\alpha$ show the effect of relaxing the cap: smaller values give more "
+                r"source-balanced weights, while larger values allow high-mass sources to retain more influence. "
+                r"Head mass is the total probability assigned to the top-20 types. TV distances use the full "
+                r"distribution over all emoji types."
             ),
             label="tab:emoji",
         ),
