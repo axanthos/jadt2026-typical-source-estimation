@@ -6,8 +6,10 @@ authors:
   - family-names: "Xanthos"
     given-names: "Aris"
 version: "1.0.0"
+doi: "10.5281/zenodo.20314185"
 date-released: "2026-05-20"
-repository-code: "https://github.com/axanthos/jadt2026-typical-source-estimation"
+url: "https://doi.org/10.5281/zenodo.20314185"
+repository-code: "https://github.com/<YOUR_GITHUB_USER>/jadt2026-typical-source-estimation"repository-code: "https://github.com/axanthos/jadt2026-typical-source-estimation"
 license: "MIT"
 abstract: >-
   Paper-specific reproduction package for the JADT 2026 paper
