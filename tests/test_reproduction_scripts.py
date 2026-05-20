@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -207,3 +209,142 @@ def test_reproduction_clis_match_build_outputs(tmp_path: Path) -> None:
         assert (emoji_cli / filename).read_text(encoding="utf-8") == (emoji_api / filename).read_text(encoding="utf-8")
     for filename in ["lexical_tv_table.tsv", "lexical_shift_table.tsv", "lexical_full_shift_table.tsv"]:
         assert (lexical_cli / filename).read_text(encoding="utf-8") == (lexical_api / filename).read_text(encoding="utf-8")
+
+
+def test_reproduce_simulation_cli_is_deterministic_for_same_seed(tmp_path: Path) -> None:
+    """Repeated CLI runs with the same seed schedule should be byte-identical."""
+    first = tmp_path / "sim_first"
+    second = tmp_path / "sim_second"
+
+    # Run the public simulation script twice with the same explicit seed schedule.
+    _run_script(
+        "reproduce_simulation.py",
+        "--quick",
+        "--no-consolidate",
+        "--seed-start", "7",
+        "--n-seeds", "2",
+        "--outdir", str(first),
+    )
+    _run_script(
+        "reproduce_simulation.py",
+        "--quick",
+        "--no-consolidate",
+        "--seed-start", "7",
+        "--n-seeds", "2",
+        "--outdir", str(second),
+    )
+
+    # The exact public artifacts should match, not only their row counts.
+    assert (first / "eval" / "results.tsv").read_bytes() == (second / "eval" / "results.tsv").read_bytes()
+    assert (first / "eval" / "grid.json").read_bytes() == (second / "eval" / "grid.json").read_bytes()
+
+
+def test_reproduce_simulation_cli_wires_seed_schedule(tmp_path: Path) -> None:
+    """Changing the seed schedule should alter metadata and simulated values."""
+    seed0 = tmp_path / "sim_seed0"
+    seed1 = tmp_path / "sim_seed1"
+
+    # Run one-seed quick simulations with different top-level seed starts.
+    _run_script(
+        "reproduce_simulation.py",
+        "--quick",
+        "--no-consolidate",
+        "--seed-start", "0",
+        "--n-seeds", "1",
+        "--outdir", str(seed0),
+    )
+    _run_script(
+        "reproduce_simulation.py",
+        "--quick",
+        "--no-consolidate",
+        "--seed-start", "1",
+        "--n-seeds", "1",
+        "--outdir", str(seed1),
+    )
+
+    # Metadata should expose the seed schedule so releases are auditable.
+    grid0 = json.loads((seed0 / "eval" / "grid.json").read_text(encoding="utf-8"))
+    grid1 = json.loads((seed1 / "eval" / "grid.json").read_text(encoding="utf-8"))
+    assert grid0["seed_start"] == 0
+    assert grid1["seed_start"] == 1
+    assert grid0["seed_schedule"] == "range(seed_start, seed_start + n_seeds)"
+    assert grid1["seed_schedule"] == "range(seed_start, seed_start + n_seeds)"
+
+    # The seed column and at least some TV values should change across runs.
+    results0 = pd.read_csv(seed0 / "eval" / "results.tsv", sep="\t")
+    results1 = pd.read_csv(seed1 / "eval" / "results.tsv", sep="\t")
+    assert set(results0["seed"]) == {0}
+    assert set(results1["seed"]) == {1}
+    assert not np.allclose(results0["tv_qhat_qstar"].to_numpy(), results1["tv_qhat_qstar"].to_numpy())
+
+
+def test_reproduce_simulation_cli_writes_documented_output_contract(tmp_path: Path) -> None:
+    """Simulation CLI should write the documented files and key columns."""
+    outdir = tmp_path / "simulation"
+
+    # Let the public command consolidate so the full output contract is exercised.
+    _run_script(
+        "reproduce_simulation.py",
+        "--quick",
+        "--seed-start", "3",
+        "--n-seeds", "1",
+        "--outdir", str(outdir),
+    )
+
+    expected_files = [
+        outdir / "eval" / "results.tsv",
+        outdir / "eval" / "grid.json",
+        outdir / "consolidated" / "tables" / "coupling_grid_medians.tsv",
+        outdir / "consolidated" / "figures" / "fig1_main_results.pdf",
+        outdir / "consolidated" / "figures" / "fig2_alpha_sweep.pdf",
+    ]
+    for path in expected_files:
+        assert path.exists(), path
+        assert path.stat().st_size > 0, path
+
+    # Results keep the archived evaluation schema needed by consolidation.
+    results = pd.read_csv(outdir / "eval" / "results.tsv", sep="\t")
+    assert list(results.columns) == [
+        "status",
+        "error_message",
+        "generator_id",
+        "sample_size",
+        "vocab_size",
+        "token_shape",
+        "n_sources",
+        "n_regimes_truth",
+        "imbalance_mode",
+        "imbalance_level",
+        "seed",
+        "method_id",
+        "tv_qhat_qstar",
+    ]
+    assert len(results) == 3 * 4 * 1 * 7
+
+    # The consolidated summary exposes the dimensions plotted in the paper figures.
+    summary = pd.read_csv(outdir / "consolidated" / "tables" / "coupling_grid_medians.tsv", sep="\t")
+    assert list(summary.columns) == ["imb_idx", "imbalance", "coupling", "method_id", "median", "q25", "q75", "count"]
+    assert set(summary["method_id"]) == {
+        "pooled_mle",
+        "unif_sources",
+        "capped_mass:alpha=0.25",
+        "capped_mass:alpha=0.5",
+        "capped_mass:alpha=1.0",
+        "capped_mass:alpha=2",
+        "capped_mass:alpha=4",
+    }
+
+    # Grid metadata should describe the seed policy and method list explicitly.
+    grid = json.loads((outdir / "eval" / "grid.json").read_text(encoding="utf-8"))
+    assert grid["seed_start"] == 3
+    assert grid["n_seeds"] == 1
+    assert grid["methods"] == [
+        "pooled_mle",
+        "unif_sources",
+        "capped_mass:alpha=0.25",
+        "capped_mass:alpha=0.5",
+        "capped_mass:alpha=1.0",
+        "capped_mass:alpha=2",
+        "capped_mass:alpha=4",
+    ]
+

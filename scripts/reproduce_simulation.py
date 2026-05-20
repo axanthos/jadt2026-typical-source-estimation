@@ -17,9 +17,9 @@ from consolidate_simulation import consolidate_simulation_outputs
 def _quick_config() -> SimulationConfig:
     """Return a reduced configuration for fast smoke runs."""
     return SimulationConfig(
-        n_sources=40,
-        vocab_size=300,
-        total_tokens=10_000,
+        n_sources=12,
+        vocab_size=40,
+        total_tokens=600,
         zipf_exponent=DEFAULT_CONFIG.zipf_exponent,
         n_regimes=DEFAULT_CONFIG.n_regimes,
         target_tv=DEFAULT_CONFIG.target_tv,
