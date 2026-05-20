@@ -37,8 +37,8 @@ This repository does **not** redistribute token-level data derived from the
 The WNS corpus is a controlled-access research corpus available to researchers
 via SwissUBase under a license agreement. In accordance with the corpus privacy
 commitments, WNS-derived token-level inputs used in the paper are not published
-here. Authorized WNS users will be able to regenerate them locally with the
-preparation scripts provided in this repository.
+here. Authorized WNS users can regenerate them locally with the preparation
+scripts provided in this repository.
 
 ## Repository layout
 
@@ -73,8 +73,8 @@ preparation scripts provided in this repository.
 ## Installation
 
 The package declares its runtime dependencies in `pyproject.toml`, including
-`numpy`, `pandas`, and `matplotlib`.  The `dev` extra adds `pytest` for the test
-suite.
+`numpy`, `pandas`, `matplotlib`, `emoji`, and `lxml`. The `dev` extra adds
+`pytest` for the test suite.
 
 With `uv`, set up the development environment and run the tests with:
 
@@ -127,11 +127,16 @@ For details, see [`docs/data_access.md`](docs/data_access.md),
 
 ## Citation
 
-Please cite the JADT 2026 paper and, when using the WNS real-data analyses, also
-cite the WNS corpus through its official SwissUBase citation.
+Please cite both the accompanying JADT paper and the archived software release.
+The paper citation is, pending final proceedings metadata:
 
-A `CITATION.cff` file is included for software citation metadata. The archival
-release DOI should be added to the citation metadata after Zenodo mints it.
+> Xanthos, Aris. 2026. *Estimating the typical-source distribution in imbalanced corpora*. JADT 2026.
+
+When using the WNS real-data analyses, also cite the WNS corpus through its
+official SwissUBase/LaRS citation.
+
+A `CITATION.cff` file is included for software citation metadata. Add the Zenodo
+DOI to `CITATION.cff` after the archival release has been minted.
 
 ## License
 
