@@ -28,3 +28,5 @@ snapshots/
 machine.toml
 # ResearchFlow patch register (developer-local)
 .researchflow/applied_patches.toml
+# ResearchFlow Changes-panel state (developer-local)
+.researchflow/changes_panel_state.toml
