@@ -19,7 +19,7 @@ No controlled-access corpus data are required for the simulation workflow.
 ## 2. Emoji real-data analysis
 
 The emoji analysis is based on a WNS-derived emoji TSV generated from an
-authorized local copy of the corpus. The final preparation script should:
+authorized local copy of the corpus. The preparation scripts:
 
 1. extract emoji sequences from the WNS corpus;
 2. remove variation selectors and skin-tone modifiers;
@@ -42,7 +42,7 @@ WNS corpus. The implemented preparation/table scripts:
 
 ## 4. Expected command pattern
 
-The package is being built around commands following this pattern:
+The package uses commands following this pattern:
 
 ```bash
 # Simulations
@@ -56,8 +56,6 @@ python scripts/prepare_wns_lexical_tsv.py --posts data/private/derived/wns_posts
 # Real-data tables
 python scripts/reproduce_emoji_table.py --input data/private/derived/wns_emoji.tsv --outdir outputs/emoji
 python scripts/reproduce_lexical_tables.py --input data/private/derived/wns_lexical.tsv --outdir outputs/lexical
-# Lexical input comparison diagnostic
-python scripts/compare_lexical_inputs.py --old data/private/wns_corpus_v1.0.0_no_EMJ.tsv --new data/private/derived/wns_lexical.tsv --outdir outputs/lexical_compare
 ```
 
-The WNS preparation, real-data table, and seeded simulation commands are implemented. Temporary lexical-comparison scaffolding remains only for validation and should be removed before public release.
+The WNS preparation, real-data table, and seeded simulation commands are implemented. The public workflow deliberately excludes temporary validation scaffolding used during development.

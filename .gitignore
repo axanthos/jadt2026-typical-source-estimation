@@ -1,43 +1,30 @@
-# Python bytecode and test caches
+# Python caches and build outputs
 __pycache__/
 *.py[cod]
 .pytest_cache/
-.mypy_cache/
 .ruff_cache/
+.mypy_cache/
 .coverage
 htmlcov/
-
-# Build and packaging artifacts
-*.egg-info/
 build/
 dist/
+*.egg-info/
 
-# Virtual environments
+# Virtual environments and local editor state
 .venv/
 venv/
-env/
-
-# Local/private data and machine-specific configuration
-_data_private/
-data/private/
-*.local.*
-*.local.json
-*.local.toml
-machine.toml
-
-# Generated reproduction outputs
-outputs/
-out/
-
-# Local project metadata/state
-.researchflow/
-
-# OS/editor files
+.env
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
+
+# Local/private reproduction inputs and generated outputs
+data/private/
+outputs/
+io/
+snapshots/
+
+# ResearchFlow local/governed state is not part of the public reproduction package
+.researchflow/
+machine.toml
 # ResearchFlow patch register (developer-local)
 .researchflow/applied_patches.toml
-# ResearchFlow Changes-panel state (developer-local)
-.researchflow/changes_panel_state.toml

@@ -526,7 +526,7 @@ def lexical_tables_latex(tv_df: pd.DataFrame, shift_df: pd.DataFrame, *, contras
     # Render lexical tokens as escaped text but keep the LaTeX caption raw.
     for _, row in shift_df.iterrows():
         lines.append(
-            "{} & {} & {} & {} & {} & {} \\".format(
+            "{} & {} & {} & {} & {} & {} ".format(
                 latex_escape(row["higher_under_cap"]),
                 "" if pd.isna(row["cap_source_count"]) else int(row["cap_source_count"]),
                 "" if pd.isna(row["cap_delta_per_10k"]) else latex_escape(format_delta(row["cap_delta_per_10k"])),
@@ -534,6 +534,7 @@ def lexical_tables_latex(tv_df: pd.DataFrame, shift_df: pd.DataFrame, *, contras
                 "" if pd.isna(row["pool_source_count"]) else int(row["pool_source_count"]),
                 "" if pd.isna(row["pool_delta_per_10k"]) else latex_escape(format_delta(row["pool_delta_per_10k"])),
             )
+            + r"\\"
         )
     lines.extend(
         [

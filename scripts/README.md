@@ -43,15 +43,6 @@ python scripts/reproduce_lexical_tables.py \
   --outdir outputs/lexical
 ```
 
-To compare the legacy rich lexical TSV against the newly prepared minimal TSV, use:
-
-```bash
-python scripts/compare_lexical_inputs.py \
-  --old data/private/wns_corpus_v1.0.0_no_EMJ.tsv \
-  --new data/private/derived/wns_lexical.tsv \
-  --outdir outputs/lexical_compare
-```
-
 For smoke tests without WNS access, use the toy inputs:
 
 ```bash

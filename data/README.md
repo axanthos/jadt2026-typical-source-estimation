@@ -1,9 +1,7 @@
 # Data directory
 
-This directory is reserved for synthetic toy inputs that can be redistributed
-with the reproduction package.
+This directory contains only public toy inputs used by examples and tests.
 
-It does **not** contain token-level data derived from the *What's New,
-Switzerland?* corpus. Authorized WNS users should generate paper-specific TSV
-inputs locally from their controlled-access copy of the corpus, following the
-instructions in `docs/data_access.md` and `docs/reproduction_plan.md`.
+The controlled-access WNS corpus and all locally generated WNS-derived TSVs must
+not be committed to this repository. Place them under `data/private/` when
+running the real-data reproduction workflow locally.

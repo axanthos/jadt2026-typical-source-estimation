@@ -10,9 +10,10 @@ paper.
 
 ## Status
 
-Development scaffold with the core source-count data model, the three paper
-estimators, total-variation distance, source-size summaries, unit tests, and
-initial WNS preparation scripts and final real-data table-generation scripts for authorized local reproduction. Simulation scripts will be added in subsequent steps.
+Release-ready reproduction package with the source-count data model, the three
+paper estimators, total-variation distance, source-size summaries, WNS
+preparation scripts for authorized local reproduction, final real-data table
+scripts, seeded simulation scripts, and tests.
 
 ## What this repository contains
 
@@ -25,7 +26,8 @@ initial WNS preparation scripts and final real-data table-generation scripts for
 - Small synthetic toy inputs for examples and smoke tests.
 - WNS preparation scripts that regenerate paper-specific TSV inputs locally for authorized users.
 - Emoji and lexical table-generation scripts consuming prepared TSV inputs.
-- Documentation for the planned reproduction workflow.
+- Seeded simulation scripts that regenerate paper-facing simulation summaries and figures.
+- Documentation for data access, simulation provenance, and the reproduction workflow.
 
 ## What this repository will not contain
 
@@ -51,7 +53,8 @@ preparation scripts provided in this repository.
 │   └── toy/
 ├── docs/
 │   ├── data_access.md
-│   └── reproduction_plan.md
+│   ├── reproduction_plan.md
+│   └── simulation_provenance.md
 ├── configs/
 │   └── wns_jadt_preprocessing.ini
 ├── scripts/
@@ -60,7 +63,8 @@ preparation scripts provided in this repository.
 │   ├── prepare_wns_emoji_tsv.py
 │   ├── prepare_wns_lexical_tsv.py
 │   ├── reproduce_emoji_table.py
-│   └── reproduce_lexical_tables.py
+│   ├── reproduce_lexical_tables.py
+│   └── reproduce_simulation.py
 ├── src/
 │   └── typical_source_estimation/
 └── tests/
@@ -110,23 +114,24 @@ corpus:
 1. an emoji-sequence table;
 2. a lexical message-text table.
 
-For public reproducibility, this repository will provide:
+For public reproducibility, this repository provides:
 
 - conversion scripts that authorized users can run on a local copy of the WNS
   corpus;
 - estimator/table-generation scripts that consume the derived local TSV files;
 - toy inputs with the same column conventions.
 
-For details, see [`docs/data_access.md`](docs/data_access.md) and
-[`docs/reproduction_plan.md`](docs/reproduction_plan.md).
+For details, see [`docs/data_access.md`](docs/data_access.md),
+[`docs/reproduction_plan.md`](docs/reproduction_plan.md), and
+[`docs/simulation_provenance.md`](docs/simulation_provenance.md).
 
 ## Citation
 
 Please cite the JADT 2026 paper and, when using the WNS real-data analyses, also
 cite the WNS corpus through its official SwissUBase citation.
 
-A `CITATION.cff` file is included for software citation metadata and will be
-updated when the archival release DOI is available.
+A `CITATION.cff` file is included for software citation metadata. The archival
+release DOI should be added to the citation metadata after Zenodo mints it.
 
 ## License
 

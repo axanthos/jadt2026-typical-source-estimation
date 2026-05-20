@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jadt2026-typical-source-estimation"
-version = "0.1.0"
+version = "1.0.0"
 description = "Reproduction package for typical-source estimation in imbalanced corpora (JADT 2026)."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 authors = [
   {name = "Aris Xanthos"}
 ]
+keywords = ["corpus linguistics", "estimator sensitivity", "source imbalance", "reproducibility"]
 dependencies = [
   "numpy>=1.24",
   "pandas>=2.0",

@@ -156,6 +156,7 @@ def test_reproduce_lexical_tables_writes_exact_toy_outputs(tmp_path: Path) -> No
     latex = (outdir / "lexical_tables.tex").read_text(encoding="utf-8")
     assert "Total variation distances" in latex
     assert "Largest signed lexical shifts" in latex
+    assert "bonjour & 1 & +113.64 & haha & 1 & -75.76 \\\\" in latex
     assert "\\label{tab:lexical-tv}" in latex
 
 
