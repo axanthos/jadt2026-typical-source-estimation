@@ -22,6 +22,7 @@ data/private/
 outputs/
 io/
 snapshots/
+ai/
 
 # ResearchFlow local/governed state is not part of the public reproduction package
 .researchflow/
