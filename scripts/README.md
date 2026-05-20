@@ -6,9 +6,9 @@ scripts; no private workflow software is required.
 
 ## WNS preparation scripts
 
-Authorized users of the *What's New, Switzerland?* corpus can regenerate the
-paper-specific TSV inputs locally.  The WNS corpus itself must remain outside
-Git, for example under `data/private/wns/`.
+Authorized users of the What's New, Switzerland? (WNS) corpus can regenerate
+the paper-specific TSV inputs locally.  WNS itself must remain outside Git, for
+example under `data/private/wns/`.
 
 ```bash
 python scripts/prepare_wns_posts_tsv.py \
@@ -43,7 +43,7 @@ python scripts/reproduce_lexical_tables.py \
   --outdir outputs/lexical
 ```
 
-For smoke tests without WNS access, use the toy inputs:
+For smoke tests without access to WNS, use the toy inputs:
 
 ```bash
 python scripts/reproduce_emoji_table.py --input data/toy/toy_emoji.tsv --outdir outputs/toy_emoji --k 2

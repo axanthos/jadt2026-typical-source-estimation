@@ -3,14 +3,14 @@
 ## Public data in this repository
 
 This repository includes small toy inputs for smoke tests and examples. These
-files are synthetic and are not derived from the *What's New, Switzerland?*
+files are synthetic and are not derived from the What's New, Switzerland? (WNS)
 corpus.
 
-## WNS corpus data
+## WNS data
 
-The real-data analyses in the JADT 2026 paper use inputs derived from the
-*What's New, Switzerland?* corpus. The corpus is a controlled-access research
-corpus available to researchers via SwissUBase under a license agreement.
+The real-data analyses in the JADT 2026 paper use inputs derived from WNS.
+WNS is controlled-access and available to researchers via SwissUBase under a
+license agreement.
 
 This repository does **not** redistribute WNS-derived token-level data,
 including:
@@ -25,9 +25,9 @@ including:
 Authorized WNS users will be able to reproduce the real-data analyses as
 follows:
 
-1. obtain access to the WNS corpus through SwissUBase under the applicable
+1. obtain access to WNS through SwissUBase under the applicable
    license agreement;
-2. place a local copy of the corpus in the private input directory documented by
+2. place a local copy of WNS in the private input directory documented by
    the preparation scripts;
 3. run the WNS preparation scripts to generate the paper-specific TSV inputs
    locally;

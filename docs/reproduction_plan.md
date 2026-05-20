@@ -18,10 +18,10 @@ No controlled-access corpus data are required for the simulation workflow.
 
 ## 2. Emoji real-data analysis
 
-The emoji analysis is based on a WNS-derived emoji TSV generated from an
-authorized local copy of the corpus. The preparation scripts:
+The emoji analysis is based on an emoji TSV derived from the What's New,
+Switzerland? (WNS) corpus and generated from an authorized local copy of WNS. The preparation scripts:
 
-1. extract emoji sequences from the WNS corpus;
+1. extract emoji sequences from WNS;
 2. remove variation selectors and skin-tone modifiers;
 3. retain gendered emoji sequences;
 4. write a local TSV suitable for the estimator scripts.
@@ -30,8 +30,7 @@ The implemented table-generation script reproduces the paper's top-k emoji estim
 
 ## 3. Lexical sensitivity check
 
-The lexical check is based on message text from an authorized local copy of the
-WNS corpus. The implemented preparation/table scripts:
+The lexical check is based on message text from an authorized local copy of WNS. The implemented preparation/table scripts:
 
 1. exclude non-human/system pseudo-sources;
 2. lowercase text and tokenize with the documented word-token rule;

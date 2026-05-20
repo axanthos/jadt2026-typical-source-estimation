@@ -11,8 +11,8 @@ paper.
 ## Status
 
 Release-ready reproduction package with the source-count data model, the three
-paper estimators, total-variation distance, source-size summaries, WNS
-preparation scripts for authorized local reproduction, final real-data table
+paper estimators, total-variation distance, source-size summaries, preparation
+scripts for the What's New, Switzerland? (WNS) corpus, final real-data table
 scripts, seeded simulation scripts, and tests.
 
 ## What this repository contains
@@ -24,18 +24,17 @@ scripts, seeded simulation scripts, and tests.
 - Core utilities for source-by-token count datasets.
 - Total-variation distance and source-size imbalance summaries.
 - Small synthetic toy inputs for examples and smoke tests.
-- WNS preparation scripts that regenerate paper-specific TSV inputs locally for authorized users.
+- Preparation scripts that regenerate paper-specific WNS TSV inputs locally for authorized users.
 - Emoji and lexical table-generation scripts consuming prepared TSV inputs.
 - Seeded simulation scripts that regenerate paper-facing simulation summaries and figures.
 - Documentation for data access, simulation provenance, and the reproduction workflow.
 
 ## What this repository will not contain
 
-This repository does **not** redistribute token-level data derived from the
-*What's New, Switzerland?* corpus.
+This repository does **not** redistribute token-level data derived from WNS.
 
-The WNS corpus is a controlled-access research corpus available to researchers
-via SwissUBase under a license agreement. In accordance with the corpus privacy
+WNS is a controlled-access research corpus available to researchers via
+SwissUBase under a license agreement. In accordance with the corpus privacy
 commitments, WNS-derived token-level inputs used in the paper are not published
 here. Authorized WNS users can regenerate them locally with the preparation
 scripts provided in this repository.
@@ -108,22 +107,22 @@ q_cap = capped_mass_alpha(ds, alpha=1.0).q_hat
 
 ## Data access and reproduction
 
-The real-data analyses in the paper use two TSV inputs derived from the WNS
-corpus:
+The real-data analyses in the paper use two TSV inputs derived from WNS:
 
 1. an emoji-sequence table;
 2. a lexical message-text table.
 
 For public reproducibility, this repository provides:
 
-- conversion scripts that authorized users can run on a local copy of the WNS
-  corpus;
+- conversion scripts that authorized users can run on a local copy of WNS;
 - estimator/table-generation scripts that consume the derived local TSV files;
 - toy inputs with the same column conventions.
 
-For details, see [`docs/data_access.md`](docs/data_access.md),
-[`docs/reproduction_plan.md`](docs/reproduction_plan.md), and
-[`docs/simulation_provenance.md`](docs/simulation_provenance.md).
+For details, see:
+
+- [Data access](docs/data_access.md)
+- [Reproduction plan](docs/reproduction_plan.md)
+- [Simulation provenance](docs/simulation_provenance.md)
 
 ## Citation
 
@@ -132,8 +131,8 @@ The paper citation is, pending final proceedings metadata:
 
 > Xanthos, Aris. 2026. *Estimating the typical-source distribution in imbalanced corpora*. JADT 2026.
 
-When using the WNS real-data analyses, also cite the WNS corpus through its
-official SwissUBase/LaRS citation.
+When using the WNS real-data analyses, also cite WNS through its official
+SwissUBase/LaRS citation.
 
 A `CITATION.cff` file is included for software citation metadata. Add the Zenodo
 DOI to `CITATION.cff` after the archival release has been minted.
@@ -141,7 +140,7 @@ DOI to `CITATION.cff` after the archival release has been minted.
 ## License
 
 Code in this repository is released under the MIT License unless otherwise
-stated. See [`LICENSE`](LICENSE).
+stated. See [LICENSE](LICENSE).
 
 No license is granted here for WNS-derived token-level data, because such data
 are not redistributed in this repository.
