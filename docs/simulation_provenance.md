@@ -1,11 +1,11 @@
 # Simulation provenance
 
-This document records the simulation design and seed schedule used for the JADT
-2026 reproduction package.
+This document records the seeded simulation workflow used for the JADT 2026
+reproduction package.
 
 ## Simulation design
 
-The simulation workflow uses a coupling-spectrum design with:
+The simulation study uses a coupling-spectrum design with:
 
 - `S = 100` sources;
 - `V = 1000` token types;
@@ -16,8 +16,8 @@ The simulation workflow uses a coupling-spectrum design with:
 - coupling levels `0`, `0.33`, `0.67`, and `1`;
 - CAP alpha values `0.25`, `0.5`, `1`, `2`, and `4`.
 
-The released simulation workflow makes the random seed schedule explicit so
-that all reported simulation summaries and figures can be regenerated.
+The implementation is deterministic for a given seed schedule and writes the
+configuration metadata needed to identify the run.
 
 ## Released seed schedule
 

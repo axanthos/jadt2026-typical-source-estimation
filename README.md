@@ -29,7 +29,7 @@ scripts, seeded simulation scripts, and tests.
 - Seeded simulation scripts that regenerate paper-facing simulation summaries and figures.
 - Documentation for data access, simulation provenance, and the reproduction workflow.
 
-## What this repository will not contain
+## What this repository does not contain
 
 This repository does **not** redistribute token-level data derived from WNS.
 
@@ -132,7 +132,8 @@ The paper citation is, pending final proceedings metadata:
 
 > Xanthos, Aris. 2026. *Estimating the typical-source distribution in imbalanced corpora*. JADT 2026.
 
-When using the WNS real-data analyses, also cite the dataset as:
+When using the WNS real-data analyses, also cite WNS through its official
+SWISSUbase/LaRS citation:
 
 > Xanthos, A., Gupta, P., Benkais, L., Doudot, L., & Grütter, A. (2024). What's New, Switzerland? Corpus (Version 1.0.0) [Data set]. LaRS - Language Repository of Switzerland. https://doi.org/10.48656/pa3t-xh52
 

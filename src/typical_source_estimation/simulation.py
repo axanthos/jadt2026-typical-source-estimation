@@ -3,9 +3,8 @@
 The paper's simulation study evaluates three estimators under controlled
 source-size imbalance and size--content coupling: pooled token weighting
 (``POOL``), uniform source weighting (``UNIF``), and capped source-mass
-weighting (``CAP``).  This module is a compact, seeded implementation of that
-paper-specific workflow.  It preserves the deterministic generator semantics of
-the archived analysis while exposing an explicit seed schedule for release-grade
+weighting (``CAP``). This module is a compact, seeded implementation of that
+paper-specific workflow with an explicit seed schedule for release-grade
 reproduction.
 """
 
@@ -233,7 +232,7 @@ def _make_labels(prefix: str, count: int, width: int) -> list[str]:
 
 
 def encode_condition(level: ImbalanceLevel, coupling: float) -> int:
-    """Encode imbalance/coupling condition in the archived integer convention."""
+    """Encode imbalance/coupling condition in the stable integer convention."""
     return int(level.index) * 100 + int(round(float(coupling) * 10.0))
 
 
@@ -331,7 +330,7 @@ def method_ids(config: SimulationConfig) -> list[str]:
 
 
 def format_alpha(alpha: float) -> str:
-    """Format cap-alpha values using the archived method-id convention."""
+    """Format cap-alpha values using the stable method-id convention."""
     return "1.0" if abs(float(alpha) - 1.0) < 1e-12 else "%g" % float(alpha)
 
 
@@ -371,7 +370,7 @@ def iter_simulation_rows(
                         status = "error"
                         error = repr(exc)
 
-                    # Keep the result schema close to the archived evaluation output.
+                    # Keep the result schema stable for consolidation and downstream checks.
                     yield {
                         "status": status,
                         "error_message": error,
@@ -422,7 +421,7 @@ def run_coupling_simulation(
 
 
 def decode_conditions(frame: pd.DataFrame, *, config: SimulationConfig = DEFAULT_CONFIG) -> pd.DataFrame:
-    """Decode archived integer condition codes into imbalance/coupling columns."""
+    """Decode integer condition codes into imbalance/coupling columns."""
     decoded = frame.copy()
     decoded["imb_idx"] = decoded["n_regimes_truth"].astype(int) // 100
     decoded["c_raw"] = decoded["n_regimes_truth"].astype(int) % 100

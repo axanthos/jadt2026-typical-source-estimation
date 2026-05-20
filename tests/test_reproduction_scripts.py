@@ -305,7 +305,7 @@ def test_reproduce_simulation_cli_writes_documented_output_contract(tmp_path: Pa
         assert path.exists(), path
         assert path.stat().st_size > 0, path
 
-    # Results keep the archived evaluation schema needed by consolidation.
+    # Results keep the evaluation schema needed by consolidation.
     results = pd.read_csv(outdir / "eval" / "results.tsv", sep="\t")
     assert list(results.columns) == [
         "status",
