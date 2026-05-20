@@ -4,10 +4,12 @@ This directory contains public command-line entry points for preparing data and
 reproducing the JADT 2026 paper results.  The commands are ordinary Python
 scripts; no private workflow software is required.
 
-## WNS preparation scripts
+## Corpus preparation scripts
 
 Authorized users of the What's New, Switzerland? (WNS) corpus can regenerate
-the paper-specific TSV inputs locally.  WNS itself must remain outside Git, for
+the paper-specific TSV inputs locally. The dataset is available on demand for
+research purposes, under a restricted license contract, from the SWISSUbase
+repository (https://www.swissubase.ch). WNS itself must remain outside Git, for
 example under `data/private/wns/`.
 
 ```bash
@@ -23,6 +25,10 @@ python scripts/prepare_wns_lexical_tsv.py \
   --posts data/private/derived/wns_posts.tsv \
   --output data/private/derived/wns_lexical.tsv
 ```
+
+When using the WNS real-data analyses, cite the dataset as:
+
+> Xanthos, A., Gupta, P., Benkais, L., Doudot, L., & Grütter, A. (2024). What's New, Switzerland? Corpus (Version 1.0.0) [Data set]. LaRS - Language Repository of Switzerland. https://doi.org/10.48656/pa3t-xh52
 
 The emoji command defaults to the camera-ready preprocessing contract: variation
 selectors and skin-tone modifiers are stripped, gendered emoji sequences are
@@ -71,4 +77,3 @@ python scripts/consolidate_simulation.py --outdir outputs/simulation
 The simulation outputs are written under `outputs/simulation/eval/` and
 `outputs/simulation/consolidated/`.  The generated `grid.json` records the
 explicit seed schedule used by the run.
-

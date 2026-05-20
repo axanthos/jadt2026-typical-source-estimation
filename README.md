@@ -33,11 +33,12 @@ scripts, seeded simulation scripts, and tests.
 
 This repository does **not** redistribute token-level data derived from WNS.
 
-WNS is a controlled-access research corpus available to researchers via
-SwissUBase under a license agreement. In accordance with the corpus privacy
-commitments, WNS-derived token-level inputs used in the paper are not published
-here. Authorized WNS users can regenerate them locally with the preparation
-scripts provided in this repository.
+The dataset is available on demand for research purposes, under a restricted
+license contract, from the SWISSUbase repository (https://www.swissubase.ch).
+In accordance with the corpus privacy commitments, WNS-derived token-level
+inputs used in the paper are not published here. Authorized WNS users can
+regenerate them locally with the preparation scripts provided in this
+repository.
 
 ## Repository layout
 
@@ -131,8 +132,9 @@ The paper citation is, pending final proceedings metadata:
 
 > Xanthos, Aris. 2026. *Estimating the typical-source distribution in imbalanced corpora*. JADT 2026.
 
-When using the WNS real-data analyses, also cite WNS through its official
-SwissUBase/LaRS citation.
+When using the WNS real-data analyses, also cite the dataset as:
+
+> Xanthos, A., Gupta, P., Benkais, L., Doudot, L., & Grütter, A. (2024). What's New, Switzerland? Corpus (Version 1.0.0) [Data set]. LaRS - Language Repository of Switzerland. https://doi.org/10.48656/pa3t-xh52
 
 A `CITATION.cff` file is included for software citation metadata. Add the Zenodo
 DOI to `CITATION.cff` after the archival release has been minted.

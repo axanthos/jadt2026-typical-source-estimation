@@ -56,7 +56,7 @@ def _load_results(outdir: Path) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(f"Simulation results not found: {path}")
 
-    # Keep only successful rows, matching the archived consolidation contract.
+    # Keep only successful simulation rows before consolidation.
     frame = pd.read_csv(path, sep="\t")
     ok = frame[frame["status"] == "ok"].copy()
     print(f"Loaded simulation rows: {len(ok)} / {len(frame)} ok")

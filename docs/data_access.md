@@ -9,8 +9,8 @@ corpus.
 ## WNS data
 
 The real-data analyses in the JADT 2026 paper use inputs derived from WNS.
-WNS is controlled-access and available to researchers via SwissUBase under a
-license agreement.
+The dataset is available on demand for research purposes, under a restricted
+license contract, from the SWISSUbase repository (https://www.swissubase.ch).
 
 This repository does **not** redistribute WNS-derived token-level data,
 including:
@@ -20,13 +20,18 @@ including:
 - any original WhatsApp message text;
 - any row-level WNS-derived token sequence data.
 
+## Dataset citation
+
+When using the WNS real-data analyses, cite the dataset as:
+
+> Xanthos, A., Gupta, P., Benkais, L., Doudot, L., & Grütter, A. (2024). What's New, Switzerland? Corpus (Version 1.0.0) [Data set]. LaRS - Language Repository of Switzerland. https://doi.org/10.48656/pa3t-xh52
+
 ## Reproducing the WNS analyses
 
-Authorized WNS users will be able to reproduce the real-data analyses as
-follows:
+Authorized WNS users can reproduce the real-data analyses as follows:
 
-1. obtain access to WNS through SwissUBase under the applicable
-   license agreement;
+1. obtain access to WNS through SWISSUbase under the applicable restricted
+   license contract;
 2. place a local copy of WNS in the private input directory documented by
    the preparation scripts;
 3. run the WNS preparation scripts to generate the paper-specific TSV inputs
