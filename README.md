@@ -1,5 +1,7 @@
 # JADT 2026 typical-source estimation reproduction package
 
+[![DOI](https://zenodo.org/badge/1244853018.svg)](https://doi.org/10.5281/zenodo.20314184)
+
 This repository is the paper-specific reproduction package for:
 
 > Aris Xanthos. 2026. *Estimating the typical-source distribution in imbalanced corpora*. JADT 2026.
