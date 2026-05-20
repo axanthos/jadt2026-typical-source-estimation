@@ -137,8 +137,7 @@ SWISSUbase/LaRS citation:
 
 > Xanthos, A., Gupta, P., Benkais, L., Doudot, L., & Grütter, A. (2024). What's New, Switzerland? Corpus (Version 1.0.0) [Data set]. LaRS - Language Repository of Switzerland. https://doi.org/10.48656/pa3t-xh52
 
-A `CITATION.cff` file is included for software citation metadata. Add the Zenodo
-DOI to `CITATION.cff` after the archival release has been minted.
+A `CITATION.cff` file is included for software citation metadata.
 
 ## License
 

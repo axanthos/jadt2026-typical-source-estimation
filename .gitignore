@@ -23,6 +23,7 @@ outputs/
 io/
 snapshots/
 ai/
+ai/artifacts/imported_patches/
 
 # ResearchFlow local/governed state is not part of the public reproduction package
 .researchflow/
