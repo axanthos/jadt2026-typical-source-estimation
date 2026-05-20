@@ -59,4 +59,25 @@ python scripts/reproduce_emoji_table.py --input data/toy/toy_emoji.tsv --outdir 
 python scripts/reproduce_lexical_tables.py --input data/toy/toy_lexical.tsv --outdir outputs/toy_lexical --k 2
 ```
 
-Simulation reproduction scripts will be added in a later step.
+## Simulation reproduction scripts
+
+The simulation workflow is seeded by default.  The default full run reproduces
+the paper grid with 100 seeds; `--quick` keeps the full condition/method grid
+but lowers the dataset size and seed count for smoke testing.
+
+```bash
+python scripts/reproduce_simulation.py --quick --outdir outputs/simulation_quick
+python scripts/reproduce_simulation.py --outdir outputs/simulation --seed-start 0 --n-seeds 100
+```
+
+To regenerate figures/tables from an existing simulation run without rerunning
+the stochastic grid:
+
+```bash
+python scripts/consolidate_simulation.py --outdir outputs/simulation
+```
+
+The simulation outputs are written under `outputs/simulation/eval/` and
+`outputs/simulation/consolidated/`.  The generated `grid.json` records the
+explicit seed schedule used by the run.
+

@@ -17,10 +17,12 @@ from typical_source_estimation.estimators import (
 )
 from typical_source_estimation.metrics import normalize_nonnegative, total_variation
 from typical_source_estimation.source_summary import SourceSizeSummary, summarize_source_sizes
+from typical_source_estimation.simulation import SimulationConfig, run_coupling_simulation, summarize_simulation
 
 __all__ = [
     "CountsDataset",
     "EstimatorResult",
+    "SimulationConfig",
     "SourceSizeSummary",
     "aggregate_source_profiles",
     "build_counts_dataset",
@@ -29,8 +31,10 @@ __all__ = [
     "load_sequence_tsv",
     "normalize_nonnegative",
     "pooled_mle",
+    "run_coupling_simulation",
     "source_profiles",
     "split_sequence",
+    "summarize_simulation",
     "summarize_source_sizes",
     "total_variation",
     "uniform_sources",
